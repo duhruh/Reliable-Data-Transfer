@@ -1,0 +1,2 @@
+every 16bit to calc checksum.
+checksum = seqnum+acknum+(sigma) payload
