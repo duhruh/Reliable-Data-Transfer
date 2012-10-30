@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 /* ******************************************************************
  ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: 
@@ -41,31 +42,61 @@ void starttimer(int, float);
 void stoptimer(int);
 void tolayer3(int,struct pkt);
 void tolayer5(int, struct msg);
-
+int check_checksum(struct pkt);
+int compute_checksum(struct pkt);
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/
 
+int prev_sequence_number;
+struct msg prev_message;
+struct pkt prev_packet;
 
 /* called from layer 5, passed the data to be sent to other side. Return a 1 if 
 data is accepted for transmission, negative number otherwise */
 int A_output(message)
   struct msg message;
 {
-  if(strcmp(message.data, "") == 0) 
+    //check if we are waiting for ack?
+    //return -1
+  if(strcmp(message.data, "") == 0) {
     return -1;
-  else
+  }else{
+    //Build the packet
+    struct pkt packet;
+    strcpy(packet.payload,message.data);
+    strcpy(prev_message.data,message.data);
+    packet.seqnum = prev_sequence_number++;
+    packet.acknum = 0;
+    packet.checksum = compute_checksum(packet);
+    
+    prev_packet = packet;
+
+    tolayer3(0,packet); 
+    starttimer(0,5);
+
     return 1;
+  }
 }
 
 /* called from layer 3, when a packet arrives for layer 4 */
 void A_input(packet)
   struct pkt packet;
 {
+    struct msg message;
+    strcpy(message.data,packet.payload);
     //udt_ror()
+    if(packet.acknum == 1){
+        //stoptimer(); //not sure whos timer to stop
+        //need to make sure it is ack'd
+        tolayer5(0,message);
+        //stop a timer?   
+    }
 }
 
 /* called when A's timer goes off */
 void A_timerinterrupt()
 {
+    tolayer3(0,prev_packet);
+    starttimer(0,5)
     //timeout
     //When a timer has been timed out
     //udt_send
@@ -76,21 +107,44 @@ void A_timerinterrupt()
 /* entity A routines are called. You can use it to do any initialization */
 void A_init()
 {
-
+    prev_sequence_number = -1;
 }
 
+/* used to check the checksum */
+int check_checksum(struct pkt package){
+    int i,sum = package.seqnum + package.acknum;
+    for(i = 0; i < strlen(package.payload); i++){
+        sum += package.payload[i];
+    }
+    return (sum == package.checksum);
+}
+/* used to generate checksum */
+int compute_checksum(struct pkt package){
+    int i,sum = (package.seqnum + package.acknum);
+    for(i = 0; i < strlen(package.payload); i++){
+        sum += package.payload[i];
+    }
+    return sum;            
+}
 
 /* called from layer 3, when a packet arrives for layer 4 at B*/
 void B_input(packet)
   struct pkt packet;
 {
-
+    struct msg message;
+    strcpy(message.data,packet.payload);
+    //udt_ror()
+        if(check_checksum(packet)){
+            //stoptimer(); //not sure whos timer to stop
+            //need to send ack back
+            tolayer5(1,message);
+        }
 }
 
 /* called when B's timer goes off */
 void B_timerinterrupt()
 {
-
+    //need to retransmit ack
 }
 
 /* the following rouytine will be called once (only) before any other */
