@@ -1,0 +1,909 @@
+david@lappy:~/Documents/code/C/Reliable-Data-Transfer$ ./a.out 
+-----  Stop and Wait Network Simulator Version 1.1 -------- 
+
+Enter the number of messages to simulate: 10
+Enter packet loss probability [enter 0.0 for no loss]: .2
+Enter packet corruption probability [0.0 for no corruption]: .2
+Enter average time between messages from sender's layer5 [ > 0.0]: 20
+Enter a seed for the random number generator [0 will provide a random seed]: 0
+Enter TRACE [0,1,2,3]: 2
+
+EVENT time: 35.273659,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 0
+Checksum: 1941
+Message: aaaaaaaaaaaaaaaaaaaa
+The ACK A is expecting to see is 0
+#####################################
+          MAINLOOP: data accepted by layer 4 (student code)
+
+          EVENT time: 43.765179,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 1941
+Message: aaaaaaaaaaaaaaaaaaaap@'
+The ACK B is expecting to send is 0
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+ Warning: unable to cancel your timer. It wasn't running.
+
+ EVENT time: 50.313133,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 0
+#####################################
+
+EVENT time: 63.467644,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 1
+Checksum: 1961
+Message: bbbbbbbbbbbbbbbbbbbb
+The ACK A is expecting to see is 1
+#####################################
+          MAINLOOP: data accepted by layer 4 (student code)
+
+          EVENT time: 63.765179,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 66.155075,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 1
+#####################################
+
+EVENT time: 70.502464,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 1
+Checksum: 1961
+Message: bbbbbbbbbbbbbbbbbbbb@'
+The ACK B is expecting to send is 1
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+           TOLAYER3: packet being corrupted
+
+           EVENT time: 74.203148,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 1
+#####################################
+
+EVENT time: 83.467644,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+          TOLAYER3: packet being corrupted
+
+          EVENT time: 85.903053,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 1
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 90.502464,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 90.650124,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 1
+Checksum: 1961
+Message: Zbbbbbbbbbbbbbbbbbbb@@'The ACK B is expecting to send is 1
+#####################################
+#####################################
+B is NOT accepting this packet!
+ B has accepted the 2 letter of the alphabet and is expecting the next
+#####################################
+
+ EVENT time: 96.453018,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 1
+#####################################
+
+EVENT time: 101.357468,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 0
+Checksum: 1981
+Message: cccccccccccccccccccc
+The ACK A is expecting to see is 0
+#####################################
+          TOLAYER3: packet being lost
+                    MAINLOOP: data accepted by layer 4 (student code)
+
+                    EVENT time: 110.502464,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 116.281731,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 0
+#####################################
+
+EVENT time: 121.236794,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 121.357468,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+          TOLAYER3: packet being corrupted
+
+          EVENT time: 130.502472,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 130.941864,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 999999
+Checksum: 1981
+Message: cccccccccccccccccccc�@'The ACK B is expecting to send is 0
+#####################################
+#####################################
+B is NOT accepting this packet!
+ B has accepted the 2 letter of the alphabet and is expecting the next
+#####################################
+
+ EVENT time: 133.705978,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 139.556366,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 0
+#####################################
+
+EVENT time: 141.357468,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+
+EVENT time: 143.337845,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 145.471115,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 1981
+Message: cccccccccccccccccccc
+The ACK B is expecting to send is 0
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+           TOLAYER3: packet being lost
+
+           EVENT time: 157.527802,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 161.357468,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+
+EVENT time: 162.762558,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 1981
+Message: cccccccccccccccccccc�@'The ACK B is expecting to send is 0
+#####################################
+#####################################
+B is NOT accepting this packet!
+ B has accepted the 3 letter of the alphabet and is expecting the next
+#####################################
+
+ EVENT time: 165.471115,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+          TOLAYER3: packet being lost
+
+          EVENT time: 178.069153,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 181.357468,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+          TOLAYER3: packet being corrupted
+
+          EVENT time: 185.471115,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 189.541550,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 1981
+Message: Zccccccccccccccccccc0A'The ACK B is expecting to send is 0
+#####################################
+#####################################
+B is NOT accepting this packet!
+ B has accepted the 3 letter of the alphabet and is expecting the next
+#####################################
+
+ EVENT time: 193.894089,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 0
+#####################################
+
+EVENT time: 205.471115,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 207.347229,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 1
+Checksum: 2001
+Message: dddddddddddddddddddd
+The ACK A is expecting to see is 1
+#####################################
+          MAINLOOP: data accepted by layer 4 (student code)
+
+          EVENT time: 209.683533,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 1
+#####################################
+
+EVENT time: 214.365219,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 1
+Checksum: 2001
+Message: dddddddddddd
+The ACK B is expecting to send is 1
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+
+ EVENT time: 214.464142,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 1
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 216.238968,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 1
+#####################################
+
+EVENT time: 234.365219,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 237.668991,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 0
+Checksum: 2021
+Message: eeeeeeeeeeeeeeeeeeee
+The ACK A is expecting to see is 0
+#####################################
+          TOLAYER3: packet being corrupted
+                    MAINLOOP: data accepted by layer 4 (student code)
+
+                    EVENT time: 239.841949,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 243.536102,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 2021
+Message: Zeeeeeeeeeeeeeeeeeee�@'The ACK B is expecting to send is 0
+#####################################
+#####################################
+B is NOT accepting this packet!
+ B has accepted the 4 letter of the alphabet and is expecting the next
+#####################################
+
+ EVENT time: 244.266037,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 0
+#####################################
+
+EVENT time: 254.365219,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 257.669006,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+          TOLAYER3: packet being lost
+
+          EVENT time: 260.759552,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 0
+#####################################
+
+EVENT time: 271.442383,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 274.365234,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 276.491821,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 0
+#####################################
+
+EVENT time: 277.669006,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+          TOLAYER3: packet being lost
+
+          EVENT time: 284.983765,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 294.365234,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 297.669006,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+
+EVENT time: 300.472504,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 2021
+Message: eeeeeeeeeeeeeeeeeeee@'
+The ACK B is expecting to send is 0
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+           TOLAYER3: packet being lost
+
+           EVENT time: 304.151825,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 0
+#####################################
+
+EVENT time: 317.669006,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+
+EVENT time: 320.472504,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+          TOLAYER3: packet being lost
+
+          EVENT time: 322.981873,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 324.616180,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 2021
+Message: eeeeeeeeeeeeeeeeeeeep@'The ACK B is expecting to send is 0
+#####################################
+#####################################
+B is NOT accepting this packet!
+ B has accepted the 5 letter of the alphabet and is expecting the next
+#####################################
+
+ EVENT time: 332.618622,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 337.669006,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+          TOLAYER3: packet being lost
+
+          EVENT time: 338.916870,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 339.771118,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 340.472504,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 342.881378,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 0
+#####################################
+
+EVENT time: 355.194092,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 1
+Checksum: 2041
+Message: ffffffffffffffffffff
+The ACK A is expecting to see is 1
+#####################################
+          MAINLOOP: data accepted by layer 4 (student code)
+
+          EVENT time: 360.472504,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 364.713074,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 1
+Checksum: 2041
+Message: ffffffffffffffffffff@'
+The ACK B is expecting to send is 1
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+           TOLAYER3: packet being corrupted
+
+           EVENT time: 367.592468,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 1
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 369.547821,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 1
+#####################################
+
+EVENT time: 370.749725,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 1
+#####################################
+
+EVENT time: 375.194092,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+          TOLAYER3: packet being lost
+
+          EVENT time: 384.713074,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+          TOLAYER3: packet being corrupted
+
+          EVENT time: 388.226532,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 1
+#####################################
+
+EVENT time: 395.194092,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+
+EVENT time: 398.099030,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 1
+Checksum: 2041
+Message: ffffffffffffffffffff�@'The ACK B is expecting to send is 1
+#####################################
+#####################################
+B is NOT accepting this packet!
+ B has accepted the 6 letter of the alphabet and is expecting the next
+#####################################
+
+ EVENT time: 404.713074,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 406.487885,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 1
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 410.095703,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 1
+#####################################
+
+EVENT time: 412.749634,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 0
+Checksum: 2061
+Message: gggggggggggggggggggg
+The ACK A is expecting to see is 0
+#####################################
+          TOLAYER3: packet being corrupted
+                    MAINLOOP: data accepted by layer 4 (student code)
+
+                    EVENT time: 419.525238,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 2061
+Message: Zggggggggggggggggggg�@'The ACK B is expecting to send is 0
+#####################################
+#####################################
+B is NOT accepting this packet!
+ B has accepted the 6 letter of the alphabet and is expecting the next
+#####################################
+
+ EVENT time: 424.669708,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 424.713074,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 425.790405,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 0
+#####################################
+
+EVENT time: 432.749634,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+
+EVENT time: 436.616608,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 2061
+Message: gggggggggggggggggggg@'
+The ACK B is expecting to send is 0
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+
+ EVENT time: 438.047394,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 446.320038,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 0
+#####################################
+
+EVENT time: 456.269257,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 1
+Checksum: 2081
+Message: hhhhhhhhhhhhhhhhhhhh
+The ACK A is expecting to see is 1
+#####################################
+          TOLAYER3: packet being lost
+                    MAINLOOP: data accepted by layer 4 (student code)
+
+                    EVENT time: 456.616608,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 460.465363,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 1
+#####################################
+
+EVENT time: 476.269257,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+
+EVENT time: 476.616608,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+          TOLAYER3: packet being corrupted
+
+          EVENT time: 480.419006,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 1
+Checksum: 2081
+Message: hhhhhhhhhhhhhhhhhhhh@'
+The ACK B is expecting to send is 1
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+           TOLAYER3: packet being lost
+
+           EVENT time: 482.671295,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 999999
+Current expected ACK: 1
+#####################################
+
+EVENT time: 487.091797,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 1
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 496.269257,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+          TOLAYER3: packet being lost
+
+          EVENT time: 500.419006,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 503.046448,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 1
+Current expected ACK: 1
+#####################################
+
+EVENT time: 508.655487,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 0
+Checksum: 2101
+Message: iiiiiiiiiiiiiiiiiiii
+The ACK A is expecting to see is 0
+#####################################
+          MAINLOOP: data accepted by layer 4 (student code)
+
+          EVENT time: 513.964966,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 2101
+Message: iiiiiiiiiiiiiiiiiiii@@'The ACK B is expecting to send is 0
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+
+ EVENT time: 522.412842,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 0
+#####################################
+
+EVENT time: 523.393799,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 1
+Checksum: 2121
+Message: jjjjjjjjjjjjjjjjjjjj
+The ACK A is expecting to see is 1
+#####################################
+          MAINLOOP: data accepted by layer 4 (student code)
+
+          EVENT time: 524.750000,  type: 2, fromlayer3  entity: 1
+           Simulator terminated at time 524.750000
+            after sending 10 msgs from layer5

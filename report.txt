@@ -1,0 +1,115 @@
+A_output gets a message from the upper layers, there can be only two states A_output can be in either it is waiting for a response or it is sending. The variable A_STATE denotes this. If it is sending then it builds the packet then stores the built packet to the variable prev_packet which is used for retransmission. After the packet is built it flips the boolean variable A_STATE and SEQ because (on first run through) a should now be waiting for a response and the next SEQ number should be 1. A sends the packet to layer3 then starts the timer.
+A_input first checks if the packet it received has the ACK we are currently waiting for, if it doesn't let the timer expire. It also checks the checksum of the packet. if both of these variables are correct it accpets the packet and stops A's timer. A then builds the struct msg from the payload, flips the A_STATE, and ACK variables (because a should now be in the sending state) then sends the message to the upper layers.
+A_timerinterrupt simply sends the prev_packet when A's timer expires and restarts the timer.
+A_init set the A_STAT,ACK, and SEQ to 0
+check_checksum and generate_checksum are helper functions I wrote to do just that generate and check the checksum on incoming our outgoing packets. Check_checksum simply returns a boolean int if we will accpet or reject this packet. Generate_checksum computes the checksum by adding all the fields in the packet except for the checksum field.
+flip_number is the last helper function I wrote. It simply takes in an int and if it is 0 returns a 1 or if it is a 1 returns a 0. This helps me alternate the SEQ and ACK bit
+B_input first checks the checksum of the incoming packet then checks weather the seq number is the number we are expecting if it is not do nothing. If the message is accpeted create the struct msg from the payload flip B_STATE (which is used to determine the SEQ number B should accept) generate the ACK packet to send back to A assign b_prev_packet to the ack_packet we create (for retransmission) then send the message to layer5 the ack to layer3 stop any exsisting timers B has and start a new one.
+B_timerinterrupt simply retransmits the B_prev_packet and starts the timer again.
+B_init simply sets B_STATE to 0.
+
+
+The following is a test run
+===================================================================================================
+Enter the number of messages to simulate: 2
+Enter packet loss probability [enter 0.0 for no loss]: .2
+Enter packet corruption probability [0.0 for no corruption]: .2
+Enter average time between messages from sender's layer5 [ > 0.0]: 20
+Enter a seed for the random number generator [0 will provide a random seed]: 2
+Enter TRACE [0,1,2,3]: 2
+
+EVENT time: 31.329832,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 0
+Checksum: 1941
+Message: aaaaaaaaaaaaaaaaaaaa
+The ACK A is expecting to see is 0
+#####################################
+          TOLAYER3: packet being corrupted
+                    MAINLOOP: data accepted by layer 4 (student code)
+                    
+                    EVENT time: 40.346729,  type: 2, fromlayer3  entity: 1
+                    
+#####################################
+                    B input here is the packet I received:
+                    Sequence number: 0
+                    Checksum: 1941
+                    Message: Zaaaaaaaaaaaaaaaaaaap
+                    The ACK B is expecting to send is 0
+#####################################
+#####################################
+                    B is NOT accepting this packet!
+                     B has accepted the 0 letter of the alphabet and is expecting the next
+#####################################
+
+                     EVENT time: 51.329834,  type: 0, timerinterrupt   entity: 0
+
+#####################################
+A timer has been interrupted, A will now resend the packet. 
+#####################################
+
+EVENT time: 53.393673,  type: 2, fromlayer3  entity: 1
+
+#####################################
+B input here is the packet I received:
+Sequence number: 0
+Checksum: 1941
+Message: aaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaaaaaa
+The ACK B is expecting to send is 0
+#####################################
+
+#####################################
+ B is sending the ACK 
+#####################################
+ Warning: unable to cancel your timer. It wasn't running.
+
+ EVENT time: 60.564289,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is currently waiting for an ACK# 0
+#####################################
+          MAINLOOP: data NOT accepted by layer 4 (student code)
+
+          EVENT time: 62.840580,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 0
+#####################################
+
+EVENT time: 73.393677,  type: 0, timerinterrupt   entity: 1
+
+#####################################
+B timer interrupt, B is now resending the packet.
+#####################################
+
+EVENT time: 80.668007,  type: 2, fromlayer3  entity: 0
+
+#####################################
+A has received the ACK packet!
+ACK: 0
+Current expected ACK: 1
+#####################################
+
+EVENT time: 92.981544,  type: 1, fromlayer5  entity: 0
+
+#####################################
+A is going to send the following packet:
+Sequence number: 1
+Checksum: 1961
+Message: bbbbbbbbbbbbbbbbbbbb
+The ACK A is expecting to see is 1
+#####################################
+          MAINLOOP: data accepted by layer 4 (student code)
+
+          EVENT time: 93.393677,  type: 0, timerinterrupt   entity: 1
+           Simulator terminated at time 93.393677
+            after sending 2 msgs from layer5
+===============================================================================================
+
+In the above test I sent 2 messages for the sake of simplicity with corruption and packet loss of .2 the trailling letters at the end of my message print outs are because I am printing out a char[] as a char* so lets only look at the first 20 spots. You can see that A has to resend the A packet a couple of times which shows it's interrupt is working also once A has received the ACK for the previous packet it will no longer accept any future ACk's for that packet as you can see in the second to last mesage I print out. Also you can see how B is rejecting packets that are corrupted which shows how the checksum is working.
+
+You can see the run of 10 messages in the 10messages.txt as it is too big to put in here.

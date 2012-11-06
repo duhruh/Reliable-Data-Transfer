@@ -71,7 +71,7 @@ int A_output(message)
 {
     //check if we are waiting for ack?
     //return -1
-    printf("\n#####################################\nTHIS IS THE MESSAGE FROM THE UPPER LAYERS\n%s\n#####################################\n",message.data);
+    //printf("\n#####################################\nTHIS IS THE MESSAGE FROM THE UPPER LAYERS\n%s\n#####################################\n",message.data);
     if(A_STATE){
         printf("\n#####################################\nA is currently waiting for an ACK# %d\n#####################################\n",ACK);
         return -1;
@@ -102,12 +102,12 @@ void A_input(packet)
   struct pkt packet;
 {
     printf("\n#####################################\nA has received the ACK packet!\nACK: %d\nCurrent expected ACK: %d\n#####################################\n",packet.acknum,ACK);
-    if(packet.acknum == ACK){
+    if(packet.acknum == ACK && check_checksum(packet)){
         stoptimer(A);
         
         struct msg message;
         strcpy(message.data,packet.payload);
-        printf("\n#####################################\nA has received the ACK # %d \n#####################################\n", ACK);
+      //  printf("\n#####################################\nA has received the ACK # %d \n#####################################\n", ACK);
         
         ACK = flip_number(ACK);
         A_STATE = flip_number(A_STATE);
@@ -118,8 +118,8 @@ void A_input(packet)
 /* called when A's timer goes off */
 void A_timerinterrupt()
 {
-    printf("\n#####################################\nA timer has been interrupted \n#####################################\n");
-    printf("\n#####################################\nA is going to send the following packet:\nSequence number: %d\nChecksum: %d\nMessage: %s\nThe ACK A is expecting to see is %d\n#####################################\n",prev_packet.seqnum,prev_packet.checksum,prev_packet.payload,ACK);
+    printf("\n#####################################\nA timer has been interrupted, A will now resend the packet. \n#####################################\n");
+    //printf("\n#####################################\nA is going to send the following packet:\nSequence number: %d\nChecksum: %d\nMessage: %s\nThe ACK A is expecting to see is %d\n#####################################\n",prev_packet.seqnum,prev_packet.checksum,prev_packet.payload,ACK);
 
     tolayer3(A,prev_packet);
     starttimer(A,TIMER);
@@ -138,7 +138,7 @@ void A_init()
 int check_checksum(struct pkt package){
     int i;
     int sum = (package.seqnum + package.acknum);
-    for(i = 0; i < strlen(package.payload); i++){
+    for(i = 0; i < MESSAGE_SIZE; i++){
         sum += (int)package.payload[i];
     }
     return (sum == package.checksum);
@@ -147,12 +147,9 @@ int check_checksum(struct pkt package){
 int generate_checksum(struct pkt package){
     int i;
     int sum = (package.seqnum + package.acknum);
-    //printf("###########################\n TIME TO WORK THIS SHIT OUT\n Sequence number:%d\nACK number:%d\n",package.seqnum,package.acknum);
     for(i = 0; i < MESSAGE_SIZE; i++){
         sum += (int)package.payload[i];
-        //printf("Payload:%d\n",(int)package.payload[i]);
     }
-    //printf("----------------------\nSUM: %d\n###########################\n",sum);
     return sum;            
 }
 /* used to alternate the number*/
@@ -165,10 +162,10 @@ int flip_number(int number){
 void B_input(packet)
   struct pkt packet;
 {
-    printf("\n#####################################\nB here is the packet I received:\nSequence number: %d\nChecksum: %d\nMessage: %s\nThe ACK B is expecting to send is %d\n#####################################\n",packet.seqnum,packet.checksum,packet.payload,ACK);
+    printf("\n#####################################\nB input here is the packet I received:\nSequence number: %d\nChecksum: %d\nMessage: %s\nThe ACK B is expecting to send is %d\n#####################################\n",packet.seqnum,packet.checksum,packet.payload,ACK);
 
-    printf("B the checksum is %d\nB current state is %d\n",generate_checksum(packet),B_STATE);
-        if(packet.checksum == generate_checksum(packet) && packet.seqnum == B_STATE){
+    //printf("B the checksum is %d\nB current state is %d\n",generate_checksum(packet),B_STATE);
+        if(check_checksum(packet) && packet.seqnum == B_STATE){
             struct msg message;
             strcpy(message.data,packet.payload);
             
@@ -181,20 +178,21 @@ void B_input(packet)
             B_prev_packet = ack_packet;
 
             printf("\n#####################################\n B is sending the ACK \n#####################################\n");
+
             count++;
             tolayer5(B,message);
             tolayer3(B, ack_packet);
             stoptimer(B);
             starttimer(B,TIMER);
-        }else{printf("#####################################\nB is NOT accepting this packet!\n B has accepted the %d letter of the alphabet and is expecting the next\n#####################################\n",count);}
+        }else{printf("#####################################\nB is NOT accepting this packet!\n B has accepted the %d letter of the alphabet and is expecting the next\n#####################################\n",count);
+        }
 
 }
 
 /* called when B's timer goes off */
 void B_timerinterrupt()
 {
-    printf("\n B's timer should never expire! \n");
-    //need to retransmit ack
+    printf("\n#####################################\nB timer interrupt, B is now resending the packet.\n#####################################\n");
     tolayer3(B,B_prev_packet);
     starttimer(B,TIMER);
 }
